@@ -105,9 +105,12 @@ export class AuthService {
     return this.afAuth
       .signInWithPopup(provider)
       .then((result) => {
-        this.router.navigate(['dashboard']);
-
         this.SetUserData(result.user);
+        this.afAuth.authState.subscribe((user) => {
+          if (user) {
+            this.router.navigate(['dashboard']);
+          }
+        });
       })
       .catch((error) => {
         window.alert(error);
